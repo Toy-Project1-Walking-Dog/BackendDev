@@ -33,24 +33,36 @@ def home():
     token_receive = request.cookies.get("mytoken")
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=["HS256"])
-        user_info = db.user.find_one({"username": payload["username"]})
-        return render_template("main.html", nickname=user_info["username"])
+        user_info = db.user.find_one({"username": payload["username"]},{'_id':False, 'userpw':False})
+        return render_template('main.html' , user=user_info)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
+def token_sender(token):
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        user_info = db.user.find_one({"username": payload["username"]}, {'_id':False, 'userpw':False})
+        return user_info
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
 
 # 정우용
 # 로그인/회원가입
 # Page indexing
 @app.route("/login")
 def login():
+    token_receive = request.cookies.get("mytoken")
+    if token_receive is not None:
+        return render_template("main.html", user=token_sender(token_receive))
     return render_template("login.html")
-
 
 @app.route("/signup")
 def signup():
+    token_receive = request.cookies.get("mytoken")
+    if token_receive is not None:
+        return render_template("main.html", user=token_sender(token_receive))
     return render_template("signup.html")
 
 

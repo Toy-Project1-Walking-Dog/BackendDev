@@ -15,7 +15,7 @@
                     data: {userid: $('#userid').val(), userpw: $('#userpw').val()},
                     success: function (response) {
                         if (response['result'] == 'success') {
-                            $.cookie('mytoken', response['token']);
+                            $.cookie('usertoken', response['token']);
 
                             alert('로그인 완료!')
                             window.location.href = '/'
