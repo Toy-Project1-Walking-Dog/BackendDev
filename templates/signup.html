@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <title>회원가입</title>
+    <script>
+        function signup() {
+            $.ajax({
+                type: "POST",
+                url: "/api/register",
+                data: {
+                    'userid': $('#userid').val(),
+                    'username': $('#username').val(),
+                    'userpw': $('#userpw').val(),
+                },
+                success: function (response) {
+                    if (response['result'] == 'success') {
+                        alert('회원가입이 완료되었습니다.')
+                        window.location.href = '/login'
+                    } else {
+                        alert(response['msg'])
+                    }
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+    <h1>회원가입</h1>
+    <div>
+        <p>아이디<input type="text" class="input" id="userid"></p>
+        <p>이름<input type="text" class="input" id="username"></p>
+        <p>비밀번호<input type="password" class="input" id="userpw"></p>
+        <button onclick="signup()">회원가입</button>
+    </div>
+</body>
+
+</html>

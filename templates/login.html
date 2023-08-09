@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <script>
+        function login() {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/login",
+                    data: {userid: $('#userid').val(), userpw: $('#userpw').val()},
+                    success: function (response) {
+                        if (response['result'] == 'success') {
+                            $.cookie('mytoken', response['token']);
+
+                            alert('로그인 완료!')
+                            window.location.href = '/'
+                        } else {
+                            alert(response['msg'])
+                        }
+                    }
+                })
+            }
+        function signup() {
+            window.location.href = "/signup";
+        }
+    </script>
+
+</head>
+<body>
+    <h1>로그인</h1>
+    <div>
+        <p >id<input type="text" class="input" id="userid"></p>
+        <p>password<input type="password" class="input" id="userpw"></p>
+        <button onclick="login()">로그인</button>
+        <button onclick="signup()">회원가입</button>
+    </div>
+    
+</body>
+</html>
