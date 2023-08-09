@@ -28,7 +28,7 @@ def home():
 
 # 강다온
 # 미세먼지 조회
-@app.route("/post/check", methods=["POST"])
+@app.route("/check", methods=["POST"])
 def mars_post():
     city = request.form['city']
     data = requests.get('https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getCtprvnRltmMesureDnsty?serviceKey=NoJIHUETtC3dz34URMbrqaNvB%2BzRaDjly51j1TcQqVEvO9aSO3JWj4UcBeAKBFmRvvjOEuUL9D%2ByIp7xuWSkhw%3D%3D&returnType=json&numOfRows=100&pageNo=1&sidoName=%EC%84%9C%EC%9A%B8&ver=1.0')
@@ -37,9 +37,19 @@ def mars_post():
 
     for a in rows:
         station = a['stationName']
-        dust = a['pm10Value']
+        dust = int(a['pm10Value'])
+        status = ""
+        if dust >= 0 or dust <= 15 :
+           status = "좋음"
+        elif dust <= 35 :
+           status = "보통"
+        elif dust <= 75 :
+           status = "나쁨"
+        else :
+           status = "매우나쁨" 
+
         if station == city:
-            return jsonify({'dust': dust},{'city':station})
+            return jsonify({'dust': dust},{'city':station},{'status':status})
 
 # 정우용
 # 회원가입

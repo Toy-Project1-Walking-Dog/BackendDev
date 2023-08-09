@@ -9,7 +9,7 @@
   <script>
     const apiData = () => {
       let inputData = document.getElementById("text").value;
-      fetch("/post/check", {
+      fetch("/check", {
         method: "POST",
         body: new URLSearchParams({
           city: inputData,
@@ -19,13 +19,13 @@
         .then((data) => {
           console.log(data);
           alert(
-            `선택하신 위치는 ${data[1].city}이며, 미세먼지는 ${data[0].dust}수치입니다`
+            `선택하신 위치는 ${data[1].city}이며, 미세먼지는 ${data[0].dust}수치입니다 결론 ${data[2].status}`
           );
         })
         .catch((err) => {
           console.log(err);
-          alert("위치정보를 잘못입력하셨습니다. 다시 입력해 주세요");
-          window.location.reload();
+          //   alert("위치정보를 잘못입력하셨습니다. 다시 입력해 주세요");
+          //   window.location.reload();
         });
     };
   </script>
