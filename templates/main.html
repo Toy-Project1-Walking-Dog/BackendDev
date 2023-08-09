@@ -2,39 +2,53 @@
 <html lang="en">
 
 <head>
-
-    <!-- Webpage Title -->
-    <title>Hello, world!</title>
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
 
-    <script>
-        // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
-        function logout() {
-            $.removeCookie('mytoken');
-            alert('로그아웃!')
-            window.location.href = '/login'
-        }
 
-    </script>
+  <script>
+    // 로그아웃은 내가 가지고 있는 토큰만 쿠키에서 없애면 됩니다.
+    function logout() {
+      $.removeCookie('mytoken');
+      alert('로그아웃!')
+      window.location.href = '/login'
+    }
 
+  </script>
+
+  <script>
+    const apiData = () => {
+      let inputData = document.getElementById("text").value;
+      fetch("/check", {
+        method: "POST",
+        body: new URLSearchParams({
+          city: inputData,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          alert(
+            `선택하신 위치는 ${data[1].city}이며, 미세먼지는 ${data[0].dust}수치입니다 결론 ${data[2].status}`
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+          //   alert("위치정보를 잘못입력하셨습니다. 다시 입력해 주세요");
+          //   window.location.reload();
+        });
+    };
+  </script>
 </head>
 
 <body>
-    <p>
-    <h1 class="title">로그인하고 5초 동안만 볼 수 있는 페이지입니다.</h1>
-    <h1 class="subtitle">계속 새로고침 해보세요</h1>
-    </p>
-    <h5 class="subtitle">나의 이름은: {{nickname}}</h5>
-    <h2>{{userid}}</h2>
-    <button class="button is-danger" onclick="logout()">로그아웃하기</button>
+  여기에다 작성하세요<input type="text" id="text" />
+  <button onclick="apiData()">전송</button>
+
 </body>
 
 </html>
