@@ -1,12 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h1>각자 필요한 페이지를 직접 만들어 보아요</h1>
-    
-</body>
+  </head>
+  <script>
+    const apiData = () => {
+      let inputData = document.getElementById("text").value;
+      fetch("/check", {
+        method: "POST",
+        body: new URLSearchParams({
+          city: inputData,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          alert(
+            `선택하신 위치는 ${data[1].city}이며, 미세먼지는 ${data[0].dust}수치입니다 결론 ${data[2].status}`
+          );
+        })
+        .catch((err) => {
+          console.log(err);
+          //   alert("위치정보를 잘못입력하셨습니다. 다시 입력해 주세요");
+          //   window.location.reload();
+        });
+    };
+  </script>
+  <body>
+    여기에다 작성하세요<input type="text" id="text" />
+    <button onclick="apiData()">전송</button>
+  </body>
 </html>
